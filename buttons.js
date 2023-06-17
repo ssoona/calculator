@@ -9,10 +9,10 @@ const States = Object.freeze({
 
 let state = States.Clear;
 
-let display = document.querySelector('#real-input');
-display.textContent = "0";
-let suggested = document.querySelector('#suggested-input');
-suggested.textContent = "";
+const display = document.querySelector('#real-input');
+display.textContent = '';
+const suggested = document.querySelector('#suggested-input');
+suggested.textContent = '0';
 
 let inputStack = [];
 let suggestedStack = [];
@@ -24,16 +24,16 @@ const addInput = (name) => {
 
 document.querySelector('#clear').addEventListener('click', () => {
     inputStack = [];
-    display.textContent = "0";
+    display.textContent = '';
     suggestedStack = [];
-    suggested.textContent = "";
+    suggested.textContent = '0';
     state = States.Clear;
 });
 
 document.querySelectorAll('.btn.number').forEach(button => {
     button.addEventListener('click', () => {
         if (state == States.Clear) {
-            display.textContent = "";
+            suggested.textContent = '';
         }
         if (state == States.Constant || state == States.CloseBracket) {
             addInput('*');
@@ -53,7 +53,7 @@ document.querySelectorAll('.btn.number').forEach(button => {
 document.querySelectorAll('.btn.const').forEach(button => {
     button.addEventListener('click', () => {
         if (state == States.Clear) {
-            display.textContent = "";
+            suggested.textContent = '';
         }
         if (state == States.Numeric || state == States.Constant || state == States.CloseBracket) {
             addInput('*');
@@ -79,7 +79,7 @@ document.querySelectorAll('.btn.close').forEach(button => {
 document.querySelectorAll('.btn.func').forEach(button => {
     button.addEventListener('click', () => {
         if (state == States.Clear) {
-            display.textContent = "";
+            suggested.textContent = '';
         }
         if (state == States.Numeric || state == States.Symbol || state == States.CloseBracket) {
             addInput('*');
@@ -94,7 +94,9 @@ document.querySelectorAll('.btn.func').forEach(button => {
 document.querySelectorAll('.btn.op').forEach(button => {
     button.addEventListener('click', () => {
         if (state == States.Clear) {
-            inputStack = [display.textContent];
+            inputStack = [suggested.textContent];
+            display.textContent = suggested.textContent;
+            suggested.textContent = '';
         } else if (state != States.Numeric && state != States.Constant && state != States.CloseBracket) {
             return;
         }
@@ -106,10 +108,35 @@ document.querySelectorAll('.btn.op').forEach(button => {
 document.querySelector('#eq').addEventListener('click', () => {
     let result = evaluate([...inputStack, ...suggestedStack]);
     suggestedStack = [];
-    suggested.textContent = suggestedStack.join('');
-    display.textContent = result;
-    inputStack = [""+result];
+    inputStack = [];
+    display.textContent = '';
+    suggested.textContent = result;
     state = States.Clear;
+});
+
+const KeyBinds = Object.freeze({
+    s : 'sin',
+    c : 'cos',
+    t : 'tan',
+    p : 'π',
+    e : 'e',
+    a : 'Ans',
+    l : 'ln',
+    g : 'log',
+    q : 'sqrt',
+    Enter : '=',
+    Backspace : 'C',
+});
+
+document.addEventListener('keydown', (event) => {
+    const key = event.key in KeyBinds ? KeyBinds[event.key] : event.key;
+    const button = Array.from(document.querySelectorAll('.btn'))
+                        .find(button => button.textContent == key);
+    console.log(key);
+    console.log(button);
+    if (button) {
+        button.click();
+    }
 });
 
 // document.querySelectorAll('.btn').forEach(button => {
