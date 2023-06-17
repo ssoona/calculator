@@ -19,7 +19,7 @@ let suggestedStack = [];
 
 const addInput = (name) => {
     inputStack = [...inputStack, name];
-    display.textContent += Operators[name].display;
+    display.textContent += name;
 }
 
 document.querySelector('#clear').addEventListener('click', () => {
@@ -38,7 +38,6 @@ document.querySelectorAll('.btn.number').forEach(button => {
         if (state == States.Constant || state == States.CloseBracket) {
             addInput('*');
         }
-
         if (state != States.Numeric) {
             inputStack = [...inputStack, ''];
         }
@@ -80,10 +79,13 @@ document.querySelectorAll('.btn.func').forEach(button => {
         if (state == States.Clear) {
             suggested.textContent = '';
         }
-        if (state == States.Numeric || state == States.Symbol || state == States.CloseBracket) {
+        if (state == States.Numeric || state == States.Constant || state == States.CloseBracket) {
             addInput('*');
         }
-        addInput(button.textContent);
+        if (button.textContent != '(') {
+            addInput(button.textContent);
+        }
+        addInput('(');
         suggestedStack = [...suggestedStack, ')']
         suggested.textContent = suggestedStack.join('');
         state = States.Function;
@@ -138,9 +140,9 @@ document.addEventListener('keydown', (event) => {
     }
 });
 
-// document.querySelectorAll('.btn').forEach(button => {
-//     button.addEventListener('click', () => {
-//         console.log(state)
-//         console.log(inputStack.join(','));
-//     });
-// });
+document.querySelectorAll('.btn').forEach(button => {
+    button.addEventListener('click', () => {
+        console.log(state)
+        console.log(inputStack.join(','));
+    });
+});

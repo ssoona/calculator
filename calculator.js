@@ -7,12 +7,12 @@ const Operators = Object.freeze({
     '%' : { level: 2, name: 'mod', display: '%', function: (a, b) => a % b },
     '!' : { level: 2, name: 'factorial', display: '!', function: (a, b=1) => a * b },
     '(' : { level: 1, name: 'openParen', display: '(', function: (a=1, b) => a * b },
-    sin : { level: 1, name: 'sin', display: 'sin(', function: (a=1, b) => a * Math.sin(b) },
-    cos : { level: 1, name: 'cos', display: 'cos(', function: (a=1, b) => a * Math.cos(b) },
-    tan : { level: 1, name: 'tan', display: 'tan(', function: (a=1, b) => a * Math.tan(a) },
-    ln : { level: 1, name: 'ln', display: 'ln(', function: (a=1, b) => a * Math.log(a) },
-    log : { level: 1, name: 'log', display: 'log(', function: (a=1, b) => a * Math.log10(a) },
-    sqrt : { level: 1, name: 'sqrt', display: 'sqrt(', function: (a=1, b) => a * Math.sqrt(a) },
+    sin : { level: 1, name: 'sin', display: 'sin', function: (a=1, b) => a * Math.sin(b) },
+    cos : { level: 1, name: 'cos', display: 'cos', function: (a=1, b) => a * Math.cos(b) },
+    tan : { level: 1, name: 'tan', display: 'tan', function: (a=1, b) => a * Math.tan(a) },
+    ln : { level: 1, name: 'ln', display: 'ln', function: (a=1, b) => a * Math.log(a) },
+    log : { level: 1, name: 'log', display: 'log', function: (a=1, b) => a * Math.log10(a) },
+    sqrt : { level: 1, name: 'sqrt', display: 'sqrt', function: (a=1, b) => a * Math.sqrt(a) },
     π : { name: 'pi', display: 'π' },
     e : { name: 'e', display: 'e' },
     'Ans' : { name: 'ans', display: 'Ans'},
@@ -56,8 +56,6 @@ const evalE = () => {
         a = evalE() ** a;
     } else if (match('%')) {
         a = evalE() % a;
-    } else if (match('!')) {
-        a = a;
     }
     //console.log(a);
     return a;
@@ -77,8 +75,6 @@ const evalF = () => {
         a = Math.log(a);
     } else if (match('sqrt')) {
         a = Math.sqrt(a);
-    } else if (match('(')) {
-        a = a;
     }
     //console.log(a);
     return a;
@@ -88,6 +84,7 @@ const evalP = () => {
     let a;
     if (match(')')) {
         a = evalAS();
+        match('(');
     } else if (match('π')) {
         a = Math.PI;
     } else if (match('e')) {
