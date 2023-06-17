@@ -1,2 +1,2 @@
 # Calculator
- Slightly more complex calculator made with JavaScript
+ Slightly more complex calculator made with JavaScript. "Inspired" by Google search's built in calculator. Implements a recursive descent parser to evaluate the arithmetic expressions. Front end uses a state machine to validate inputs.
