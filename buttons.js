@@ -71,7 +71,6 @@ document.querySelectorAll('.btn.close').forEach(button => {
         addInput(button.textContent);
         suggestedStack.pop();
         suggested.textContent = suggestedStack.join('');
-        openParen--;
         state = States.CloseBracket;
     });
 });

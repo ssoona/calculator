@@ -88,7 +88,7 @@ const evalP = () => {
     let a;
     if (match(')')) {
         a = evalAS();
-    } else if (match('pi')) {
+    } else if (match('π')) {
         a = Math.PI;
     } else if (match('e')) {
         a = Math.E;
